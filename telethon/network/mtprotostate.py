@@ -185,9 +185,9 @@ class MTProtoState:
 
         # Only perform the (somewhat expensive) check of duplicate if we did receive a lower ID
         if remote_msg_id <= self._highest_remote_id and remote_msg_id in self._recent_remote_ids:
-            self._log.warning('Server resent the older message %d, ignoring', remote_msg_id)
-            self._count_ignored()
-            return None
+            self._log.warning('Server resent the older message %d, but not ignoring', remote_msg_id)
+            # self._count_ignored()
+            # return None
 
         remote_sequence = reader.read_int()
         reader.read_int()  # msg_len for the inner object, padding ignored
