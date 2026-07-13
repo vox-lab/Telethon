@@ -330,6 +330,20 @@ class MTProtoSender:
                     state.future.cancel()
 
             self._pending_state.clear()
+
+            # Requests accepted by send() but never taken by a send loop — plus
+            # anything _reconnect() re-enqueued from _pending_state — sit in the
+            # packer queue. After this point nothing will ever drain it
+            # (_user_connected is False), so without resolving these here their
+            # futures stay pending FOREVER and the callers await indefinitely.
+            queued = self._send_queue.drain()
+            if queued:
+                self._log.debug('Failing %d queued message(s)...', len(queued))
+            for state in queued:
+                if error and not state.future.done():
+                    state.future.set_exception(error)
+                else:
+                    state.future.cancel()
             await helpers._cancel(
                 self._log,
                 send_loop_handle=self._send_loop_handle,

@@ -36,6 +36,23 @@ class MessagePacker:
         self._deque.extend(states)
         self._ready.set()
 
+    def drain(self):
+        """
+        Pop and return every queued state (flattened), leaving the queue empty.
+
+        Used on terminal disconnect: requests accepted by ``send()`` but not
+        yet taken by the send loop (or re-enqueued by a reconnect) would
+        otherwise keep pending futures that nothing can ever resolve.
+        """
+        states = []
+        while self._deque:
+            item = self._deque.popleft()
+            if isinstance(item, list):
+                states.extend(item)
+            else:
+                states.append(item)
+        return states
+
     async def get(self):
         """
         Returns (batch, data) if one or more items could be retrieved.
