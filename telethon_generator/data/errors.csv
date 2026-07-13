@@ -34,6 +34,7 @@ BOTS_TOO_MUCH,400,There are too many bots in this chat/channel
 BOT_CHANNELS_NA,400,Bots can't edit admin privileges
 BOT_COMMAND_DESCRIPTION_INVALID,400,"The command description was empty, too long or had invalid characters used"
 BOT_COMMAND_INVALID,400,The specified command is invalid
+BOT_COMMANDS_TOO_MUCH,400,"The provided commands are too many"
 BOT_DOMAIN_INVALID,400,The domain used for the auth button does not match the one configured in @BotFather
 BOT_GAMES_DISABLED,400,Bot games cannot be used in this type of chat
 BOT_GROUPS_BLOCKED,400,This bot can't be added to groups
@@ -263,7 +264,7 @@ MESSAGE_IDS_EMPTY,400,No message ids were provided
 MESSAGE_ID_INVALID,400,The specified message ID is invalid or you can't do that operation on such message
 MESSAGE_NOT_MODIFIED,400,Content of the message was not modified
 MESSAGE_POLL_CLOSED,400,The poll was closed and can no longer be voted on
-MESSAGE_TOO_LONG,400,Message was too long. Current maximum length is 4096 UTF-8 characters
+MESSAGE_TOO_LONG,400,Message was too long
 METHOD_INVALID,400,The API method is invalid and cannot be used
 MIN_DATE_INVALID,400,The specified minimum date is invalid
 MSGID_DECREASE_RETRY,500,The request should be retried with a lower message ID
@@ -473,7 +474,7 @@ UNTIL_DATE_INVALID,400,That date cannot be specified in this request (try using 
 UPDATE_APP_TO_LOGIN,406,
 URL_INVALID,400,The URL used was invalid (e.g. when answering a callback with a URL that's not t.me/yourbot or your game's URL)
 USAGE_LIMIT_INVALID,400,The specified usage limit is invalid
-USERNAME_INVALID,400,"Nobody is using this username, or the username is unacceptable. If the latter, it must match r""[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]"""
+USERNAME_INVALID,400,Nobody is using this username or the username is unacceptable
 USERNAME_NOT_MODIFIED,400,The username is not different from the current username
 USERNAME_NOT_OCCUPIED,400,The username is not in use by anyone else yet
 USERNAME_OCCUPIED,400,The username is already taken
@@ -527,3 +528,7 @@ WORKER_BUSY_TOO_LONG_RETRY,500,Telegram workers are too busy to respond immediat
 YOU_BLOCKED_USER,400,You blocked this user
 FROZEN_METHOD_INVALID,420,You tried to use a method that is not available for frozen accounts
 FROZEN_PARTICIPANT_MISSING,400,Your account is frozen and can't access the chat
+CHAT_SEND_VOICES_FORBIDDEN,403,You cannot send voices results in this chat
+CHAT_SEND_PHOTOS_FORBIDDEN,403,You cannot send photos results in this chat
+CHAT_SEND_VIDEOS_FORBIDDEN,403,You cannot send videos results in this Chat
+CHAT_SEND_PLAIN_FORBIDDEN,403,You cannot send plain results in this chat

@@ -48,7 +48,14 @@ class TLObject:
             whitelist = WHITELISTED_MISMATCHING_IDS[0] |\
                 WHITELISTED_MISMATCHING_IDS.get(layer, set())
 
-            if self.fullname not in whitelist:
+            # `<name>_x<ctor id>` = parse-only alias of an out-of-layer
+            # constructor (see the api.tl overlay section and
+            # telethon/tl/xcompat.py): the explicit id is the REAL wire id of
+            # the original predicate, so it can never match the CRC of the
+            # aliased definition. Skip the inferred-id check for those.
+            is_xcompat_alias = self.name.endswith('_x%08x' % self.id) or \
+                self.name.endswith('_x%x' % self.id)
+            if self.fullname not in whitelist and not is_xcompat_alias:
                 assert self.id == self.infer_id(),\
                     'Invalid inferred ID for ' + repr(self)
 
