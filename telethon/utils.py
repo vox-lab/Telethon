@@ -199,6 +199,18 @@ def get_input_peer(entity, allow_self=True, check_hash=True):
         # also not optional, we assume that this truly is the case.
         return types.InputPeerChannel(entity.id, entity.access_hash)
 
+    if isinstance(entity, types.Community):
+        # Communities are addressed as channels: the schema has no
+        # inputPeerCommunity, and community#65efe954 carries a channel's
+        # id/access_hash pair.
+        if (entity.access_hash is not None and not entity.min) or not check_hash:
+            return types.InputPeerChannel(entity.id, entity.access_hash)
+        else:
+            raise TypeError('Community without access_hash or min info cannot be input')
+    if isinstance(entity, types.CommunityForbidden):
+        # As with channelForbidden, these are never min.
+        return types.InputPeerChannel(entity.id, entity.access_hash)
+
     if isinstance(entity, types.InputUser):
         return types.InputPeerUser(entity.user_id, entity.access_hash)
 
@@ -245,7 +257,8 @@ def get_input_channel(entity):
     except AttributeError:
         _raise_cast_fail(entity, 'InputChannel')
 
-    if isinstance(entity, (types.Channel, types.ChannelForbidden)):
+    if isinstance(entity, (types.Channel, types.ChannelForbidden,
+                           types.Community, types.CommunityForbidden)):
         return types.InputChannel(entity.id, entity.access_hash or 0)
 
     if isinstance(entity, types.InputPeerChannel):
